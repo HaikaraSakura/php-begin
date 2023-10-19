@@ -210,8 +210,7 @@ URLに?name=太郎と指定すると、こんにちは太郎！と表示され�
 ## ルーティング
 
 いまのままだと、どんなURLでアクセスされてもトップページが表示されてしまいます。  
-LPならそれでいいかもしれませんが、一般的なWebアプリケーションでは、  
-パスの内容に応じてページを出し分けることが必要です。これをルーティングといいます。  
+一般的なWebアプリケーションでは、パスの内容に応じてページを出し分けます。これをルーティングといいます。  
 
 まさか条件分岐で書いていくわけにはいかないので、ライブラリを導入しましょう。  
 今回はThe PHP Leagueの`league/route`を使います。  
@@ -557,16 +556,19 @@ use Twig\Loader\FilesystemLoader;
 
 $container = new Container;
 
+// ResponseFactoryInterfaceを要求されたら、ResponseFactoryのインスタンスを生成して渡すよう設定
 $container->add(ResponseFactoryInterface::class, ResponseFactory::class);
 
-$container->add('View', function () {
+// Environmentを要求されたら、生成処理を実行してその返り値（Environment）を渡すよう設定
+$container->add(Environment::class, function () {
     $loader = new FilesystemLoader(__DIR__ . '/../resources/templates/');
     return new Environment($loader);
 });
 
+// TopActionのコンストラクタに何を渡すかを設定
 $container->add(TopAction::class)
     ->addArgument(ResponseFactoryInterface::class)
-    ->addArgument('View');
+    ->addArgument(Environment::class);
 
 return $container;
 ```
@@ -593,8 +595,8 @@ $router->get('/', TopAction::class);
 ルーティングパターンが一致したときに初めてクラスがインスタンス化され、そのオブジェクトが関数実行されます。  
 これで関係ないクラスのインスタンス化処理が実行される心配はなくなりましたね。
 
-しかし、待ってください。新しくActionクラスを作るたびに、設定をdependencies.phpに追記するのでしょうか？  
-そういう仕組みのフレームワークもありますけど、面倒じゃありません？
+ですが新しくActionクラスを作るたびに、設定をdependencies.phpに追記するのでしょうか？  
+そういう仕組みのフレームワークもありますが、やっぱり面倒じゃありませんか？
 
 ```PHP
 // すべてのActionクラスについて、このような設定を書いていく？
