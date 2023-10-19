@@ -10,21 +10,29 @@ use Psr\Http\Message\ServerRequestInterface;
 use Twig\Environment as View;
 
 class TopAction {
-    public function __construct(
-        protected ResponseFactoryInterface $responseFactory,
-        protected View $twig
-    ) {
+    protected ResponseInterface $response;
 
+    public function __construct(
+        ResponseFactoryInterface $responseFactory,
+        protected View $view
+    ) {
+        // Responseを生成
+        $this->response = $responseFactory->createResponse();
     }
 
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
+        // クエリパラメータを取得
         $queryParams = $request->getQueryParams();
         $name = $queryParams['name'] ?? '世界';
 
-        $response = $this->responseFactory->createResponse();
-        $response->getBody()->write("<p>こんにちは{$name}！</p>");
+        // クエリパラメータをViewに渡してHTMLを生成
+        $html = $this->view->render('top.twig.html', [
+            'name' => $name,
+        ]);
 
-        return $response;
+        $this->response->getBody()->write($html);
+
+        return $this->response;
     }
 }
