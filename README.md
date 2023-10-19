@@ -276,6 +276,9 @@ $response = $router->dispatch($request);
 // この部分がルーティングコールバック
 function (ServerRequestInterface $request) use ($responseFactory): ResponseInterface {
     /* ... */
+    
+    // 最終的にResponseを返すことが必須。
+    return $response;
 }
 ```
 
