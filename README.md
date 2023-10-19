@@ -593,3 +593,8 @@ $container->add(TopAction::class)
 気になる人は`PHP-DI`というライブラリを調べてみましょう。  
 `Attributes`というPHPの言語機能を活用して、依存関係を解決する方法が備わっています。  
 `PHP-DI`も`ContainerInterface`の実装なので、`league/container`と入れ替えるのは簡単です。
+
+---
+
+こREADMEの内容と、実際のサンプルコードの内容は少し違う部分があります。  
+何がどう違っていて、なぜそれで動いているのか、追いかけてみてください。
