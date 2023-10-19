@@ -53,10 +53,10 @@ composer.json
 composer require psr/http-message psr/container laminas/laminas-diactoros laminas/laminas-httphandlerrunner
 ```
 
-[psr/http-message](https://www.php-fig.org/psr/psr-7)  
-[psr/container](https://www.php-fig.org/psr/psr-11)  
-[laminas-diactoros](https://docs.laminas.dev/laminas-diactoros/)  
-[laminas-httphandlerrunner](https://docs.laminas.dev/laminas-httphandlerrunner/)
+- [psr/http-message](https://www.php-fig.org/psr/psr-7)  
+- [psr/container](https://www.php-fig.org/psr/psr-11)  
+- [laminas-diactoros](https://docs.laminas.dev/laminas-diactoros/)  
+- [laminas-httphandlerrunner](https://docs.laminas.dev/laminas-httphandlerrunner/)
 
 
 最低限必要になるファイルと、シンボリックリンクを作成します。
@@ -107,6 +107,7 @@ Composerでインストールしたパッケージを使うには、このファ
 あるはずのクラスがないとエラーで言われたら、このファイルを読み込めていない可能性を疑ってください。
 
 ここで一度ブラウザを開いて、echoした内容が表示されるか確認してみましょう。  
+`http://localhost`などにアクセスして、「こんにちは世界」と表示されればOKです。  
 もしエラーなどで出力されない場合は、以下のポイントをチェックしてみてください。
 
 - リライトが有効になっているか
