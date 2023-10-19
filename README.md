@@ -218,7 +218,7 @@ LPならそれでいいかもしれませんが、一般的なWebアプリケー
 [league/route](https://route.thephpleague.com)
 
 ```shell
-composer league/route
+composer require league/route
 ```
 
 app.phpを以下のように書き換えます。
