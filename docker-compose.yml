@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  apache:
+    build: ./docker/apache
+    ports:
+      - 80:80
+    volumes:
+      - ./:/var/www
+      - ./docker/apache/conf:/usr/local/apache2/conf
+    environment:
+      APACHE_MOD_REWRITE: 'on'
+    depends_on:
+      - php
+
+  php:
+    build: ./docker/php
+    volumes:
+      - ./:/var/www
+    environment:
+      COMPOSER_ALLOW_SUPERUSER: 1
