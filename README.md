@@ -425,6 +425,7 @@ $request = ServerRequestFactory::fromGlobals($_SERVER, $_GET, $_POST, $_COOKIE, 
 $loader = new FilesystemLoader(__DIR__ . '/../resources/templates');
 $twig = new Environment($loader);
 
+// 第二引数に$twigを渡すよう変更
 $router->get('/', new TopAction($responseFactory, $twig));
 
 $response = $router->dispatch($request);
@@ -441,29 +442,33 @@ namespace App\Http\Action\Top;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Twig\Environment as View;
+use Twig\Environment as View; // 追加
 
 class TopAction {
     protected ResponseInterface $response;
     
     public function __construct(
         ResponseFactoryInterface $responseFactory,
-        protected View $twig
+        protected View $twig // 追加
     ) {
         $this->response = $this->responseFactory->createResponse();
     }
     
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
+        // クエリパラメータを取り出す
         $query_params = $request->getQueryParams();
         $name = $queryParams['name'] ?? '世界';
         
+        // クエリパラメータをViewに渡してHTMLを生成
         $html = $this->view->render('top.twig.html', [
             'name' => $name,
         ]);
 
+        // ResponseにHTMLを書き込む
         $this->response->getBody()->write($html);
 
+        // Responseを返す
         return $this->response;
     }
 }
@@ -516,8 +521,8 @@ public function __invoke(ServerRequestInterface $request): ResponseInterface
 
 これですべてのActionクラスのコンストラクタが実行されてしまうことはなくなりますが、  
 Actionクラスにコンストラクタを実装できないのは困ります。  
-Actionクラスの中ではそのルートに関するロジックに集中したいのに、  
-ライブラリのインスタンス生成処理が入り込んでいるのも煩雑に思えます。
+また、Actionクラスの中ではそのルートに関するロジックに集中したいのに、  
+ライブラリのインスタンス生成処理が入り込んでいるのも煩雑です。
 
 保守性の問題もあります。たとえば、テンプレートファイルの置き場所が変わったら？  
 ResponseFactoryを別のライブラリの実装に入れ替えたくなったら？  
