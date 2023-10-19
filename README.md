@@ -501,7 +501,7 @@ public function __invoke(ServerRequestInterface $request): ResponseInterface
     $query_params = $request->getQueryParams();
     $name = $queryParams['name'] ?? '世界';
     
-    // Twigを呼び出し
+    // テンプレートファイルを置くディレクトリを指定して、Twigを呼び出し
     $loader = new FilesystemLoader(__DIR__ . '/../resources/templates/');
     $twig = new Environment($loader);
     
@@ -513,8 +513,10 @@ public function __invoke(ServerRequestInterface $request): ResponseInterface
     $responseFactory = new ResponseFactory;
     $response = $responseFactory->createResponse();
     
+    // ResponseにHTMLを書き込む
     $response->getBody()->write($html);
 
+    // Responseを返す
     return $response;
 }
 ```
@@ -591,7 +593,8 @@ $router->get('/', TopAction::class);
 ルーティングパターンが一致したときに初めてクラスがインスタンス化され、そのオブジェクトが関数実行されます。  
 これで関係ないクラスのインスタンス化処理が実行される心配はなくなりましたね。
 
-しかし、Actionクラスを作るたびにdependencies.phpに追記していくのでしょうか？
+しかし、待ってください。新しくActionクラスを作るたびに、設定をdependencies.phpに追記するのでしょうか？  
+そういう仕組みのフレームワークもありますけど、面倒じゃありません？
 
 ```PHP
 // すべてのActionクラスについて、このような設定を書いていく？
