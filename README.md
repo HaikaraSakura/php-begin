@@ -311,15 +311,20 @@ class TopAction {
     public function __construct(
         ResponseFactoryInterface $responseFactory
     ) {
+        // Responseを生成
         $this->response = $this->responseFactory->createResponse();
     }
     
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
+        // クエリパラメータを取り出す
         $query_params = $request->getQueryParams();
+        $name = $queryParams['name'] ?? '世界';
 
+        // ResponseにHTMLを書き込む
         $this->response->getBody()->write("<p>こんにちは{$name}！</p>");
 
+        // Responseを返す
         return $this->response;
     }
 }
