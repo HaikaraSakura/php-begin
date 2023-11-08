@@ -175,7 +175,6 @@ URLのクエリパラメータに`?id=1`と指定するとidが1の商品の情�
 その代わりにPSR-7のRequestオブジェクトを使うようにしましょう。
 
 ```PHP
-<?php
 // use宣言
 use Laminas\Diactoros\ResponseFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
