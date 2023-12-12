@@ -59,14 +59,11 @@ composer require psr/http-message psr/container laminas/laminas-diactoros lamina
 - [laminas-httphandlerrunner](https://docs.laminas.dev/laminas-httphandlerrunner/)
 
 
-最低限必要になるファイルと、シンボリックリンクを作成します。
+最低限必要になるファイルを作成します。
 
 ```shell
 mkdir public
 touch public/.htaccess public/index.php
-
-# シンボリックリンクを作成
-ln -s /var/www/public /var/www/html
 
 mkdir bootstrap
 touch bootstrap/app.php
