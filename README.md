@@ -184,7 +184,7 @@ $request = ServerRequestFactory::fromGlobals($_SERVER, $_GET, $_POST, $_COOKIE, 
 
 // クエリパラメータを取り出す
 $queryParams = $request->geQueryParams();
-$name = $queryParams['name'] ?? '世界';
+$name = (string)filter_var($queryParams['name'] ?? '世界');
 
 $responseFactory = new ResponseFactory;
 
@@ -231,7 +231,7 @@ $router = new Router;
 // ルーティング設定
 $router->get('/', function (ServerRequestInterface $request) use ($responseFactory): ResponseInterface {
     $query_params = $request->getQueryParams();
-    $name = $queryParams['name'] ?? '世界';
+    $name = (string)filter_var($queryParams['name'] ?? '世界');
 
     $response = $responseFactory->createResponse();
     $response->getBody()->write("<p>こんにちは{$name}！</p>");
