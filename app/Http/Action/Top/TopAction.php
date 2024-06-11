@@ -24,7 +24,7 @@ class TopAction {
     {
         // クエリパラメータを取得
         $queryParams = $request->getQueryParams();
-        $name = $queryParams['name'] ?? '世界';
+        $name = (string)filter_var($queryParams['name'] ?? '世界');
 
         // クエリパラメータをViewに渡してHTMLを生成
         $html = $this->view->render('top.twig.html', [
